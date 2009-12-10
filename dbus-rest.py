@@ -13,22 +13,21 @@ import simplejson
 from urlparse import parse_qs, urlparse
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
-def get_dbus_interface(bus, service, path, interface, method, args):
+def call_dbus_method(bus, service, path, interface, method, args):
     obj = bus.get_object(service, path)
     interface = getattr(obj, method)
     return apply(interface, args)
 
 
 class DBusHandler(BaseHTTPRequestHandler):
-""" Example call: http://localhost:9880/dbus/session/call/org.gnome.Tomboy.RemoteControl/ListAllNotes/?service=org.gnome.Tomboy&path=/org/gnome/Tomboy/RemoteControl
-
-arguments are / separated after the method name (ListAllNotes in the above example)
-"""
+    """ Example call: http://localhost:9880/dbus/session/call/org.gnome.Tomboy.RemoteControl/ListAllNotes/?service=org.gnome.Tomboy&path=/org/gnome/Tomboy/RemoteControl
+    arguments are / separated after the method name (ListAllNotes in the above example)
+    """
     def compose_header(self):
-            self.send_response(200)
-            # CLEANUP: the standards say application/json, this is mostly for testing...
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
+        self.send_response(200)
+        # CLEANUP: the standards say application/json, this is mostly for testing...
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
 
     def do_GET(self):
         # path: /org/gnome/Tomboy/RemoteControl?foo=bar
@@ -56,7 +55,7 @@ arguments are / separated after the method name (ListAllNotes in the above examp
                 args = parts[2:]
                 if args == ['']:  # FIXME: ugly
                     args = []
-                dbus_result = get_dbus_interface(self.bus, get_param('service'), get_param('path'),
+                dbus_result = call_dbus_method(self.bus, get_param('service'), get_param('path'),
                                                  interface, method, args)
                 # TODO: check DBus spec, are there types that simplejson
                 # doesn't support out of the box?
