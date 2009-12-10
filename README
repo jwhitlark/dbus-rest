@@ -4,8 +4,9 @@ Copyright 2009 Jason Whitlark
 
 Will be under the eclipse public license, as soon as I get my act together.
 
-Aims to provide simple access to dbus via http and json.
+Aims to provide simple access to dbus via http and json.  It's not
+very RESTful yet ;-)  Created due to my frustrations with the java dbus
+library.  Very much a work in progress.
 
-Created due to my frustrations with the java dbus library.
-
-Very much a work in progress.
+Notes on dbus:
+      3 types: get object, publish object, subscribe to notifications
