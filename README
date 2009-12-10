@@ -1,0 +1,11 @@
+dbus-rest
+
+Copyright 2009 Jason Whitlark
+
+Will be under the eclipse public license, as soon as I get my act together.
+
+Aims to provide simple access to dbus via http and json.
+
+Created due to my frustrations with the java dbus library.
+
+Very much a work in progress.
